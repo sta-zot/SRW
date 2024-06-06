@@ -1,0 +1,73 @@
+@startuml
+class Parcipiants {
+    - ID: int
+    - Имя: string
+    - Пол: string
+    - Возраст: int
+    - Уровень образования: string
+    - Уровень дохода: string
+    - Занятость: string
+    - Регион: string
+    + проходитьТест(тест: Тест)
+    + участвовать(мероприятие: Мероприятие)
+}
+
+class Test {
+    - ID: int
+    - Дата: date
+    - Тип теста: string
+    - Тематика: string
+    - Количество вопросов: int
+    - Средний балл: float
+    - Процент правильных ответов: float
+    - Время прохождения: int
+    + проводить(участник: Участник)
+}
+
+class Test_result {
+    - ID: int
+    - Участник: Участник
+    - Тест: Тест
+    - Процент правильных ответов: float
+    - Средний балл: float
+    - Время прохождения: int
+}
+
+class Event {
+    - ID: int
+    - Дата: date
+    - Тип мероприятия: string
+    - Тема: string
+    - Формат: string
+    - Организатор: string
+    - Длительность: int
+    + проводить(участник: Участник)
+}
+
+class events_participation {
+    - ID: int
+    - Участник: Участник
+    - Мероприятие: Мероприятие
+    - Дата участия: date
+}
+
+class fl_level {
+    - ID: int
+    - Участник: Участник
+    - Тест до: Тест
+    - Тест после: Тест
+    - Изменение среднего балла: float
+    - Процент участников с улучшением: float
+}
+
+Parcipiants "1" -- "0..*" Test_result
+Test "1" -- "0..*" Test_result
+
+Parcipiants "1" -- "0..*" events_participation
+Event "1" -- "0..*" events_participation
+
+Parcipiants "1" -- "0..*" fl_level
+Test "1" -- "0..1" fl_level : Test before
+Test "1" -- "0..1" fl_level : Test after
+
+@enduml
